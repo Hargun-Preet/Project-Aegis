@@ -33,7 +33,7 @@ Project Aegis is a cutting-edge secure file vault system developed as part of th
   - Drag-and-drop support
   - Progress indicators for cryptographic operations
 
--**Secure Backend Storage**
+- **Secure Backend Storage**
   - Encrypted files stored in database with metadata (filename, size, hash)
   - AES keys stored only in RSA-encrypted HEX format
   - Strict Row-Level Security (RLS) ensures users can access only their own files
