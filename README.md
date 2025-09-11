@@ -1,4 +1,4 @@
-# Project Aegis - Secure File Vault System
+# 🛡️ Project Aegis - Secure File Vault System
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
@@ -8,7 +8,7 @@
 
 ## 📖 Introduction
 
-Project Aegis is a cutting-edge secure file vault system developed as part of the Cyber Security Course (July-Dec 2025). The project implements a web-based solution that prioritizes user privacy through client-side encryption, ensuring that sensitive data never leaves the user's browser in an unencrypted form.
+Project Aegis is a cutting-edge secure file vault system developed as part of the Cyber Security Course (July-Dec 2025). This project ensures maximum privacy by performing all cryptographic operations in the browser. Files are encrypted with AES-256, integrity-protected with SHA-256, and securely stored in the backend database along with their encrypted keys — ensuring that only the rightful owner with the private RSA key can decrypt and access the data.
 
 ## ✨ Key Features
 
@@ -33,21 +33,28 @@ Project Aegis is a cutting-edge secure file vault system developed as part of th
   - Drag-and-drop support
   - Progress indicators for cryptographic operations
 
+-**Secure Backend Storage**
+  - Encrypted files stored in database with metadata (filename, size, hash)
+  - AES keys stored only in RSA-encrypted HEX format
+  - Strict Row-Level Security (RLS) ensures users can access only their own files
+  - Database policies allow only authenticated users to insert, read, and delete their files
+  - Integrity maintained via stored SHA-256 hash for each file
+
 ## ⚙️ Tech Stack
 
 - **Frontend**
   - React
   - TypeScript
   - Tailwind CSS
-  - Web Crypto API
+  - Web Crypto API (for Cryptographic Libraries)
 
 - **Backend**
-  - Supabase
+  - Supabase – used for database storage and authentication
   - Node.js
 
 - **Deployment**
-  - Vercel
-  - Supabase Cloud
+  - Vercel - for frontend hosting
+  - Supabase Cloud – for database and authentication
 
 ## 🚀 How It Works
 
@@ -84,6 +91,17 @@ npm install
 ```bash
 cp .env.example .env
 # Add your Supabase configuration
+# Make sure to include the following environment variables:
+
+# 1. VITE_SUPABASE_URL
+#    - Go to your Supabase dashboard → Project → Settings → API
+#    - Copy the "URL" under "Project URL" and paste it here
+VITE_SUPABASE_URL=your-project-url
+
+# 2. VITE_SUPABASE_ANON_KEY
+#    - In the same API settings page, copy the "anon public" key
+#    - Paste it here. This key is safe for frontend usage
+VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 4. Start development server
@@ -116,6 +134,10 @@ openssl rsa -pubin -in public_key.pem -outform DER | xxd -p -c 256
 ### Using the Application
 
 1. Input your RSA public key in HEX format in the key management section
+- You can either:
+  - Generate your own RSA key pair using OpenSSL locally, or
+  - Use the “Generate RSA Key Pair” option provided in the web app.
+- 💡 Note: Only the public key should be input here; never upload your private key.
 2. Upload files through the drag-and-drop interface
 3. Monitor encryption progress
 4. For decryption, input your RSA private key when prompted
@@ -126,21 +148,21 @@ openssl rsa -pubin -in public_key.pem -outform DER | xxd -p -c 256
 ```
 SecureVault/
 ├── src/
-│   ├── components/        # React components
+│   ├── components/       # React components
 │   ├── lib/              # Cryptographic operations
 │   ├── pages/            # Application pages
 │   └── types/            # TypeScript definitions
-├── public/               # Static assets
 └── supabase/            # Database migrations
 ```
 
 ## 👥 Contributors
 
 Group B14 Members:
-- [Member 1]
-- [Member 2]
-- [Member 3]
-- [Member 4]
+- Hargun Preet Singh (IIT2023191)
+- Adarsh Kumar (IIT2023194)
+- Harshit Shahi (IIT2023208)
+- Keshav Porwal (IIT2023211)
+- Khushwant Kumawat (IIT2023212)
 
 ## ⚠️ Security Notes
 
@@ -157,5 +179,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - Cyber Security Course Faculty
+  - Special thanks to Dr. Soumyadev Maity for guidance and support
+  - Gratitude to the TAs and faculty team for their assistance throughout the project
 - Supabase Team for Backend Infrastructure
 - Web Crypto API Contributors
