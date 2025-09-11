@@ -10,6 +10,40 @@
 
 Project Aegis is a cutting-edge secure file vault system developed as part of the Cyber Security Course (July-Dec 2025). This project ensures maximum privacy by performing all cryptographic operations in the browser. Files are encrypted with AES-256, integrity-protected with SHA-256, and securely stored in the backend database along with their encrypted keys — ensuring that only the rightful owner with the private RSA key can decrypt and access the data.
 
+## 🔒 Problem Statement
+
+In today’s digital world, storing sensitive files on cloud servers poses significant privacy and security risks. Traditional storage methods often rely on server-side encryption, which can expose encryption keys or plaintext data to the server.
+
+**Project Aegis** addresses this issue by providing a **web-based secure file vault** where all cryptographic operations — encryption, decryption, and hashing — are performed entirely on the **client side (in the browser)**. 
+
+The system works as follows:  
+1. The user selects a file to upload.  
+2. A random **AES-256 key** is generated for the file.  
+3. The **SHA-256 digest** of the file is calculated for integrity verification.  
+4. The file content along with its hash is encrypted using **AES-256-GCM**.  
+5. The AES key is encrypted using the user's **RSA public key**.  
+6. The server stores only:  
+   - The encrypted file and hash  
+   - The encrypted AES key  
+
+To decrypt a file:  
+1. Retrieve the encrypted file and AES key from the server.  
+2. Decrypt the AES key using the user's **RSA private key**.  
+3. Use the AES key to decrypt the file.  
+4. Verify the file integrity using the stored SHA-256 hash.  
+
+All keys and cryptographic operations remain on the client; **no keys are sent to the server**. Users can generate RSA key pairs manually (converted to HEX format) or use the **“Generate RSA Key Pair”** option in the GUI. The **public key** can be stored in localStorage for convenience, but the **private key must never be stored**.
+
+This approach ensures:  
+
+- **Confidentiality:** The server never sees plaintext files or encryption keys.  
+- **Integrity:** Files can be verified for tampering using stored SHA-256 hashes.
+- **Security & Availability:** The system ensures **Confidentiality** (no plaintext files or keys are exposed), **Integrity** (files can be verified using SHA-256 hashes), and **Availability** (users can reliably access and decrypt their files anytime using their private RSA key).
+- **User Control:** Only users with the correct private RSA key can decrypt and access their files.  
+
+By combining **client-side cryptography** with **secure backend storage**, Project Aegis provides a **robust and reliable solution for confidential file storage and retrieval**.
+
+
 ## ✨ Key Features
 
 - **Client-Side Encryption/Decryption**
