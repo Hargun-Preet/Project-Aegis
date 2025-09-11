@@ -31,7 +31,10 @@ Project Aegis is a cutting-edge secure file vault system developed as part of th
 - **User-Friendly Interface**
   - Intuitive file upload/download
   - Drag-and-drop support
-  - Progress indicators for cryptographic operations
+  - My Files Dashboard
+    - View all your uploaded encrypted files in one place
+    - Decrypt files directly from the dashboard using your private RSA key
+    - Sort files by name, size, or upload date for easy access
 
 - **Secure Backend Storage**
   - Encrypted files stored in database with metadata (filename, size, hash)
