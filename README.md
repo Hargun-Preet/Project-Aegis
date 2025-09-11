@@ -115,8 +115,8 @@ By combining **client-side cryptography** with **secure backend storage**, Proje
 
 1. Clone the repository
 ```bash
-git clone https://github.com/Cyber-Security-July-Dec-2025/B14.git
-cd B14
+git clone https://github.com/Hargun-Preet/Project-Aegis.git
+cd Project-Aegis
 ```
 
 2. Install dependencies
