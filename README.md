@@ -1,5 +1,11 @@
 # 🛡️ Project Aegis - Secure File Vault System
 
+![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)
+![WebCrypto API](https://img.shields.io/badge/WebCrypto_API-4285F4?logo=googlechrome&logoColor=white)  
+![Node.js](https://img.shields.io/badge/Node.js-43853D?logo=node.js&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
 🔐 A robust, client-side encrypted file storage solution ensuring maximum data privacy and security.
