@@ -136,7 +136,7 @@ The following flowcharts illustrate the client-side cryptographic processes for 
 
 **Decryption Flowchart**
 
-<img width="600" alt="Untitled diagram _ Mermaid Chart-2025-09-23-162043" src="https://github.com/user-attachments/assets/0ffa7065-eda8-4d7d-b833-71918d08fb07" />
+<img width="600" alt="Untitled diagram _ Mermaid Chart-2025-09-23-162043" src="https://github.com/user-attachments/assets/23e210f4-3e4e-4dc3-8201-c236c97a89b7" />
 
 ## 🛠️ Installation & Setup
 
