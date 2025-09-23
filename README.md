@@ -10,7 +10,7 @@
 
 🔐 A robust, client-side encrypted file storage solution ensuring maximum data privacy and security.
 
-**Live Demo:** [Project Aegis](https://aegisone.vercel.app)
+### 🌐 **Deployed App: Project Aegis** - [Click here to view](https://aegisone.vercel.app)
 
 ## 📖 Introduction
 
@@ -117,12 +117,33 @@ By combining **client-side cryptography** with **secure backend storage**, Proje
 5. File integrity is verified against original hash
 6. File is delivered to user if verification passes
 
+## 🗃️ Database Schema
+
+The backend uses two primary tables in Supabase to manage users and their encrypted files, with Row Level Security (RLS) enabled to ensure users can only access their own data.
+
+<img width="1538" height="735" alt="Database Schema" src="https://github.com/user-attachments/assets/ccc9ee09-35e9-4dcd-b420-a676be61317d" />
+
+* **`users` Table**: Stores user authentication information provided by Supabase Auth.
+* **`files` Table**: Contains metadata for each uploaded file, including the filename, size, and the encrypted content itself. Crucially, it also stores the file-specific AES key, which is itself encrypted with the user's public RSA key.
+
+## 🔄 Application Flow
+
+The following flowcharts illustrate the client-side cryptographic processes for file encryption and decryption.
+
+**Encryption Flowchart**
+
+<img width="600" alt="Untitled diagram _ Mermaid Chart-2025-09-23-161717" src="https://github.com/user-attachments/assets/92d08b23-4614-4cc1-a331-f322b1687a38" />
+
+**Decryption Flowchart**
+
+<img width="600" alt="Untitled diagram _ Mermaid Chart-2025-09-23-162043" src="https://github.com/user-attachments/assets/0ffa7065-eda8-4d7d-b833-71918d08fb07" />
+
 ## 🛠️ Installation & Setup
 
 1. Clone the repository
 ```bash
-git clone https://github.com/Hargun-Preet/Project-Aegis.git
-cd Project-Aegis
+git clone https://github.com/Cyber-Security-July-Dec-2025/B14.git
+cd B14
 ```
 
 2. Install dependencies
@@ -201,11 +222,42 @@ SecureVault/
 ## 👥 Contributors
 
 Group B14 Members:
-- Hargun Preet Singh (IIT2023191)
-- Adarsh Kumar (IIT2023194)
-- Harshit Shahi (IIT2023208)
-- Keshav Porwal (IIT2023211)
-- Khushwant Kumawat (IIT2023212)
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Hargun-Preet">
+        <img src="https://avatars.githubusercontent.com/Hargun-Preet" width="80" style="border-radius:50%;" /><br />
+        <h3><b>Hargun Preet Singh</b><br/>IIT2023191</h3>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Adarshkumaro04">
+        <img src="https://avatars.githubusercontent.com/Adarshkumaro04" width="80" style="border-radius:50%;" /><br />
+        <h3><b>Adarsh Kumar</b><br/>IIT2023194</h3>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/ShahiCodes">
+        <img src="https://avatars.githubusercontent.com/ShahiCodes" width="80" style="border-radius:50%;" /><br />
+        <h3><b>Harshit Shahi</b><br/>IIT2023208</h3>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/keshav-porwal1">
+        <img src="https://avatars.githubusercontent.com/keshav-porwal1" width="80" style="border-radius:50%;" /><br />
+        <h3><b>Keshav Porwal</b><br/>IIT2023211</h3>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Khushwantkumawat">
+        <img src="https://avatars.githubusercontent.com/Khushwantkumawat" width="80" style="border-radius:50%;" /><br />
+        <h3><b>Khushwant Kumawat</b><br/>IIT2023212</h3>
+      </a>
+    </td>
+  </tr>
+</table>
+
 
 ## ⚠️ Security Notes
 
