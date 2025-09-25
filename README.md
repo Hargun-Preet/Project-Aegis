@@ -142,8 +142,8 @@ The following flowcharts illustrate the client-side cryptographic processes for 
 
 1. Clone the repository
 ```bash
-git clone https://github.com/Cyber-Security-July-Dec-2025/B14.git
-cd B14
+git clone https://github.com/Hargun-Preet/Project-Aegis.git
+cd Project-Aegis
 ```
 
 2. Install dependencies
@@ -157,23 +157,45 @@ cp .env.example .env
 ```
 
 4. Set up Supabase Database
+
+   A. CLI Method
+
 ```bash
 # First, make sure you have the Supabase CLI installed
-npm install -g supabase
+npm install supabase --save-dev
+
+# In your repo, initialize the Supabase project
+npx supabase init
+
+# Start the Supabase stack
+npx supabase start
 
 # Login to Supabase (you'll need to create an account at https://supabase.com)
 supabase login
 
 # Link your project to your Supabase project
 supabase link --project-ref YOUR_PROJECT_REF
+# YOUR_PROJECT_REF = a short unique ID in your Project URL: https://YOUR_PROJECT_REF.supabase.co
 
 # Push the database migrations to your Supabase project
 supabase db push
 ```
+This will apply all migrations from your local supabase/migrations/ folder to your Supabase project database.
+
+   B. Manual Method
+```bash
+If you don’t want to use the CLI, you can run the migration SQL directly:
+1. Go to your project folder → open the supabase/migrations/ directory.
+2. Copy the SQL migration file content.
+3. Open your Supabase Dashboard → go to SQL Editor. If you dont have a project, Sign Up in Supabase and create a new project.
+4. Click on the SQL Editor button at top right, you can also press CTRL + E to open it quickly.
+5. Paste the SQL code.
+6. Click Run to execute the migration and create the required tables in your project.
+```
 
 5. Configure your environment variables in `.env`:
 ```bash
-# Get these from your Supabase project dashboard → Settings → API
+# Get these from your Supabase project dashboard → Project Overview → Scroll down to Project API
 
 # Your Supabase project URL
 VITE_SUPABASE_URL=your-project-url
@@ -184,11 +206,16 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 
 6. Configure Supabase Authentication Settings
 ```bash
-# In your Supabase dashboard:
-# 1. Go to Authentication → Settings
-# 2. Turn OFF "Enable email confirmations" for development
-# 3. Or set up email confirmation properly (see Email Verification section below)
+By default, email confirmations are turned ON in Supabase.
+This means that when a new user signs up, they must confirm their email by clicking the link sent to their inbox before they can sign in.
+If you want to disable this (useful in development):
+1. Go to your Supabase Dashboard.
+2. Navigate to Authentication.
+3. In the Configuration pane, go to Sign In / Providers.
+4. Under User SignUps, toggle OFF Confirm your email.
+5. Click Save to apply changes.
 ```
+See more about email confirmation in the "Email Verification Setup" section below.
 
 7. Start development server
 ```bash
@@ -200,16 +227,21 @@ npm run dev
 By default, Supabase requires email verification for new users. You have two options:
 
 **Option 1: Disable Email Confirmation (for development)**
-1. Go to your Supabase Dashboard
-2. Navigate to Authentication → Settings
-3. Scroll down to "User Signups"
-4. Turn OFF "Enable email confirmations"
+1. Go to your Supabase Dashboard.
+2. Navigate to Authentication.
+3. In the Configuration pane, go to Sign In / Providers.
+4. Under User SignUps, toggle OFF Confirm your email.
+5. Click Save to apply changes.
 
 **Option 2: Enable Proper Email Verification (recommended for production)**
 1. Keep email confirmations enabled in Supabase
-2. Set up email templates in Authentication → Email Templates
-3. Configure your site URL in Authentication → URL Configuration
-4. The app will automatically handle email verification flow
+2. Set up your email templates in Authentication → Email under the Confirm signup scetion
+3. Configure your Site URL in Authentication → URL Configuration
+4. If you are pushing your code to production, you must add your website’s domain name here.
+5. By default, Supabase uses http://localhost:3000 in the confirmation emails.
+6. To fix this, go to your Supabase Dashboard → Authentication → URL Configuration → in the Site URL field, enter your website’s domain name, then save changes.
+
+Once configured, the confirmation emails will correctly redirect users to your website instead of localhost.
 
 ## 🔑 Usage Instructions
 
