@@ -154,24 +154,62 @@ npm install
 3. Set up environment variables
 ```bash
 cp .env.example .env
-# Add your Supabase configuration
-# Make sure to include the following environment variables:
+```
 
-# 1. VITE_SUPABASE_URL
-#    - Go to your Supabase dashboard → Project → Settings → API
-#    - Copy the "URL" under "Project URL" and paste it here
+4. Set up Supabase Database
+```bash
+# First, make sure you have the Supabase CLI installed
+npm install -g supabase
+
+# Login to Supabase (you'll need to create an account at https://supabase.com)
+supabase login
+
+# Link your project to your Supabase project
+supabase link --project-ref YOUR_PROJECT_REF
+
+# Push the database migrations to your Supabase project
+supabase db push
+```
+
+5. Configure your environment variables in `.env`:
+```bash
+# Get these from your Supabase project dashboard → Settings → API
+
+# Your Supabase project URL
 VITE_SUPABASE_URL=your-project-url
 
-# 2. VITE_SUPABASE_ANON_KEY
-#    - In the same API settings page, copy the "anon public" key
-#    - Paste it here. This key is safe for frontend usage
+# Your Supabase anon/public key
 VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-4. Start development server
+6. Configure Supabase Authentication Settings
+```bash
+# In your Supabase dashboard:
+# 1. Go to Authentication → Settings
+# 2. Turn OFF "Enable email confirmations" for development
+# 3. Or set up email confirmation properly (see Email Verification section below)
+```
+
+7. Start development server
 ```bash
 npm run dev
 ```
+
+### 📧 Email Verification Setup
+
+By default, Supabase requires email verification for new users. You have two options:
+
+**Option 1: Disable Email Confirmation (for development)**
+1. Go to your Supabase Dashboard
+2. Navigate to Authentication → Settings
+3. Scroll down to "User Signups"
+4. Turn OFF "Enable email confirmations"
+
+**Option 2: Enable Proper Email Verification (recommended for production)**
+1. Keep email confirmations enabled in Supabase
+2. Set up email templates in Authentication → Email Templates
+3. Configure your site URL in Authentication → URL Configuration
+4. The app will automatically handle email verification flow
 
 ## 🔑 Usage Instructions
 

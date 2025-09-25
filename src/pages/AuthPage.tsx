@@ -15,6 +15,27 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthChange }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [showEmailVerification, setShowEmailVerification] = useState(false);
+  const [verificationEmail, setVerificationEmail] = useState('');
+
+  useEffect(() => {
+    // Handle email confirmation from URL
+    const handleEmailConfirmation = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error('Error getting session:', error);
+        return;
+      }
+      
+      // Check if user just confirmed their email
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('type') === 'signup' && data.session) {
+        setMessage('Email verified successfully! You can now use your account.');
+      }
+    };
+
+    handleEmailConfirmation();
+  }, []);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,17 +51,39 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthChange }) => {
         if (error) throw error;
         setMessage('Login successful!');
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
         });
         if (error) throw error;
-        setMessage('Account created successfully!');
+        
+        if (data.user && !data.session) {
+          // Email confirmation is required
+          setShowEmailVerification(true);
+          setVerificationEmail(email);
+          setMessage('Please check your email and click the confirmation link to activate your account.');
+        } else {
+          // Email confirmation is disabled or user is automatically confirmed
+          setMessage('Account created successfully!');
+        }
       }
     } catch (error: any) {
       setMessage(error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const resendConfirmation = async () => {
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email: verificationEmail,
+      });
+      if (error) throw error;
+      setMessage('Confirmation email resent! Please check your inbox.');
+    } catch (error: any) {
+      setMessage(`Error resending email: ${error.message}`);
     }
   };
 
@@ -57,6 +100,125 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onAuthChange }) => {
       setMessage(error.message);
     }
   };
+
+  if (showEmailVerification) {
+    return (
+      <>
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+          
+          body {
+            font-family: 'Inter', sans-serif;
+          }
+
+          .hero-bg {
+            background-color: #05070D;
+            background-image:
+              radial-gradient(at 20% 25%, hsla(212, 90%, 25%, 0.3) 0px, transparent 50%),
+              radial-gradient(at 80% 20%, hsla(288, 70%, 30%, 0.25) 0px, transparent 50%),
+              radial-gradient(at 50% 80%, hsla(190, 85%, 40%, 0.2) 0px, transparent 50%);
+            position: relative;
+            overflow: hidden;
+          }
+
+          .hero-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 50 L50 0 L100 50 L50 100 Z' fill='none' stroke='%23101827' stroke-width='0.5'/%3E%3C/svg%3E");
+            background-size: 20px 20px;
+            opacity: 0.1;
+            animation: pan 60s linear infinite;
+          }
+          
+          @keyframes pan {
+              0% { background-position: 0% 0%; }
+              100% { background-position: 100% 100%; }
+          }
+
+          .cta-button {
+            background: linear-gradient(90deg, #00C6FF, #0072FF);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 198, 255, 0.3), 0 0 25px rgba(0, 114, 255, 0.2);
+          }
+
+          .cta-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 198, 255, 0.5), 0 0 40px rgba(0, 114, 255, 0.3);
+          }
+          
+          .auth-card {
+            background: rgba(14, 22, 39, 0.6);
+            border: 1px solid #273142;
+            backdrop-filter: blur(10px);
+          }
+        `}</style>
+        
+        <div className="min-h-screen text-gray-200 hero-bg">
+          <div className="absolute top-6 left-6 z-10">
+            <Link 
+              to="/" 
+              className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span>Back to Home</span>
+            </Link>
+          </div>
+
+          <div className="flex items-center justify-center min-h-screen p-4">
+            <div className="auth-card rounded-2xl p-8 w-full max-w-md relative z-10">
+              <div className="text-center mb-8">
+                <div className="inline-block p-3 bg-gray-800/50 rounded-full mb-4 border border-gray-700">
+                  <Mail className="w-8 h-8 text-[#00C6FF]" />
+                </div>
+                <h1 className="text-3xl font-bold text-white mb-2">
+                  Check Your Email
+                </h1>
+                <p className="text-gray-400">
+                  We've sent a confirmation link to <strong>{verificationEmail}</strong>
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+                  <p className="text-blue-300 text-sm">
+                    Click the link in your email to verify your account and complete the signup process.
+                  </p>
+                </div>
+
+                <button
+                  onClick={resendConfirmation}
+                  className="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300"
+                >
+                  Resend Confirmation Email
+                </button>
+
+                <button
+                  onClick={() => {
+                    setShowEmailVerification(false);
+                    setIsLogin(true);
+                  }}
+                  className="w-full text-[#00C6FF] hover:underline text-sm transition-colors duration-300"
+                >
+                  Back to Sign In
+                </button>
+              </div>
+
+              {message && (
+                <div className={`mt-6 p-3 rounded-lg text-sm text-center border ${
+                  message.includes('successful') || message.includes('resent')
+                    ? 'bg-green-500/10 text-green-300 border-green-500/30'
+                    : 'bg-red-500/10 text-red-300 border-red-500/30'
+                }`}>
+                  {message}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
